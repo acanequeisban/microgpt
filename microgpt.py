@@ -12,11 +12,20 @@ import random   # random.seed, random.choices, random.gauss, random.shuffle
 random.seed(42) # Let there be order among chaos
 
 # Let there be a Dataset `docs`: list[str] of documents (e.g. a list of names)
-if not os.path.exists('input.txt'):
+DATA_FILE = "data/input.txt"
+
+# Si no existe dataset lo descargamos
+if not os.path.exists(DATA_FILE):
+    os.makedirs("data", exist_ok=True)
+
     import urllib.request
-    names_url = 'https://raw.githubusercontent.com/karpathy/makemore/988aa59/names.txt'
-    urllib.request.urlretrieve(names_url, 'input.txt')
-docs = [line.strip() for line in open('input.txt') if line.strip()]
+    names_url = "https://raw.githubusercontent.com/karpathy/makemore/988aa59/names.txt"
+
+    print("Dataset no encontrado. Descargando...")
+    urllib.request.urlretrieve(names_url, DATA_FILE)
+
+# Cargar dataset
+docs = [line.strip() for line in open(DATA_FILE) if line.strip()]
 random.shuffle(docs)
 print(f"num docs: {len(docs)}")
 
